@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hserver
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: hserver
+    spec:
+      containers:
+        - image: ggv/hserver
+          imagePullPolicy: IfNotPresent
+          name: hserver
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+          envFrom:
+            - configMapRef:
+                name: hserver-config
+          ports:
+            - containerPort: 5000
+              name: hserver-tcp
+      # [START volumes]
+      # [END volumes]
